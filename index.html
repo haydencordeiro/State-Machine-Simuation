@@ -26,10 +26,11 @@
             [0.6,0.8],
             [0.8,1]
         ]
-        for(var i=0;i<states.length;i++){
-            if(states[i][0]<=val && val<=states[i][0]){
-                return i
+        for(var d=0;d<states.length;d++){
+            if(states[d][0]<=val<states[d][0]){
+                return d
             }
+            // console.log(states[d],val,)
         }
         return 4
     }
@@ -76,6 +77,10 @@
             curr_state[0]=return_state(j)
             curr_state[1]=return_state(j)
             curr_state[2]=return_state(j)
+            console.log(curr_state)
+            v1.push(curr_state[0])
+            v2.push(curr_state[0])
+            v3.push(curr_state[0])
         }
         else{
             next=return_state(j)
