@@ -1,0 +1,124 @@
+<html>
+
+    <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+    </script>
+
+<body>
+    <p>Red-(N-1)     Green-(n/2)        Blue(n+1,in same direction)</p>
+    <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
+    <input id="ip">
+    <button>Calculate</button>
+</body>
+
+<script>
+    var myChart = new Chart("myChart", {
+    type: "line",
+    data: {},
+    options: {}
+    });
+    function return_state(val){
+        var states=[
+            [0,0.2],
+            [0.2,0.4],
+            [0.4,0.6],
+            [0.6,0.8],
+            [0.8,1]
+        ]
+        for(var i=0;i<states.length;i++){
+            if(states[i][0]<=val && val<=states[i][0]){
+                return i
+            }
+        }
+        return 4
+    }
+    function nminusone(next,prev){
+        if(Math.abs(next-prev)>1){
+            if(next<prev){
+                return next+1
+            }
+            else{
+                return next-1
+            }
+        }else{
+            return next
+        }
+    }
+    function ndivideby2(next,prev){
+        return Math.floor(Math.abs(prev-next)/2);
+
+    }
+    function nmove1(next,prev){
+        if(next>prev){
+            return prev+1
+        }
+        else{
+            return prev-1
+        }
+
+    }
+    function cleanIp(){
+        var temp=document.getElementById("ip");
+        temp=temp.value();
+    }
+
+    
+    var curr_state=[null,null,null]
+    
+    var l=[0.2,0.4,0.5,1,0.3,0.5,0]
+    var j=null;
+    var next=null;
+    var v1=[];
+    var v2=[];
+    var v3=[];
+    var xValues = [0];
+    for(var i=0;i<l.length;i++){
+        j=l[i]
+        if(i==0){
+            curr_state[0]=return_state(j)
+            curr_state[1]=return_state(j)
+            curr_state[2]=return_state(j)
+        }
+        else{
+            next=return_state(j)
+            curr_state[0]=nminusone(next,curr_state[0])
+            curr_state[1]=ndivideby2(next,curr_state[1])
+            curr_state[2]=nmove1(next,curr_state[2])
+            v1.push(curr_state[0])
+            v2.push(curr_state[1])
+            v3.push(curr_state[2])
+            xValues.push(xValues[xValues.length-1])
+
+            
+        }
+        
+    }
+
+new Chart("myChart", {
+  type: "line",
+  data: {
+    labels: xValues,
+    datasets: [{
+      data: v1,
+      borderColor: "red",
+      fill: false
+    },{
+      data: v2,
+      borderColor: "green",
+      fill: false
+    },{
+      data: v3,
+      borderColor: "blue",
+      fill: false
+    }]
+  },
+  options: {
+    legend: {display: false}
+  }
+});
+myChart.update()
+
+</script>
+
+
+</html>
