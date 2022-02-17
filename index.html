@@ -104,7 +104,12 @@
             v1.push(curr_state[0])
             v2.push(curr_state[0])
             v3.push(curr_state[0])
-            v4.push(return_state(j))
+            temp_a=0;
+            for(var k=0;k<=j;k++)
+            {
+                temp_a+=l[k]
+            }
+            v4.push(return_state(temp_a/j))
             // if (currAvg >= 0 && currAvg < 0.2) {
             //     currState = 0 
             //     v4.push(0)
