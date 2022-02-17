@@ -92,6 +92,8 @@
     var currAvg = l[0];
     var currState = 0;
     var xValues = [0];
+    let temp_a=0;
+
     for (var i = 0; i < l.length; i++) {
         j = l[i]
         if (i == 0) {
@@ -105,32 +107,13 @@
             v2.push(curr_state[0])
             v3.push(curr_state[0])
             temp_a=0;
-            for(var k=0;k<=j;k++)
+            for(let k=0;k<=i;k++)
             {
-                temp_a+=l[k]
+                console.log(l[k])
+                temp_a+=l[k];
             }
-            v4.push(return_state(temp_a/j))
-            // if (currAvg >= 0 && currAvg < 0.2) {
-            //     currState = 0 
-            //     v4.push(0)
-            // }
-            // else if (currAvg >= 0.2 && currAvg < 0.4) {
-            //     currState = 1
-            //     v4.push(1)
-            // }
-            // else if (currAvg >= 0.4 && currAvg < 0.6) {
-            //     currState = 2
-            //     v4.push(2)
-            // }
-            // else if (currAvg >= 0.6 && currAvg < 0.8) {
-            //     currState = 3
-            //     v4.push(3)
-            // }
-            // else if (currAvg >= 0.8 && currAvg <= 1.0) {
-            //     currState = 4
-            //     v4.push(4)
-            // }
-            // v4.push(curr_state[0])
+            v4.push(return_state(temp_a/(i+1)))
+
 
         }
         else {
@@ -142,33 +125,14 @@
             v1.push(curr_state[0])
             v2.push(curr_state[1])
             v3.push(curr_state[2])
-            v4.push(next)
-            // currAvg = ((i*currAvg) + next)/(i+1) 
-            // currState = Math.floor(((i*currState) + next)/(i+1)) 
-            // ((currAvg * (i + 1)) + j) / (i + 2);
-            // if (currAvg >= 0 && currAvg < 0.2) {
-            //     currState = 0
-            //     v4.push(0)
-            // }
-            // else if (currAvg >= 0.2 && currAvg < 0.4) {
-            //     currState = 1
-            //     v4.push(1)
-            // }
-            // else if (currAvg >= 0.4 && currAvg < 0.6) {
-            //     currState = 2
-            //     v4.push(2)
-            // }
-            // else if (currAvg >= 0.6 && currAvg < 0.8) {
-            //     currState = 3
-            //     v4.push(3)
-            // }
-            // else if (currAvg >= 0.8 && currAvg <= 1.0) {
-            //     currState = 4
-            //     v4.push(4)
-            // }
+            temp_a=0;
+            for(let k=0;k<=i;k++)
+            {
+                console.log(l[k])
+                temp_a+=l[k];
+            }
+            v4.push(return_state(temp_a/(i+1)))
 
-            // v4.push(currState)
-            // v4.push(curr_state[3])
             xValues.push(j)
             document.getElementById("nop").innerHTML = v4.toString();
 
