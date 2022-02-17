@@ -1,125 +1,218 @@
 <html>
 
-    <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
-    </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+</script>
 
-<body>
-    <p>Red-(N-1)     Green-(n/2)        Blue(n+1,in same direction)</p>
-    <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
-    <!-- <input id="ip">
-    <button>Calculate</button> -->
+<body style="padding: 2%;">
+    <!-- <p>Red-(N-1) Green-(n/2) Blue(n+1,in same direction)</p> -->
+    <canvas id="myChart" style="max-width:80%;"></canvas>
+    <!-- <input id="ip"> -->
+    <!-- <button>Calculate</button> -->
     <p id="op"></p>
+    <p id="nop"></p>
 </body>
 
 <script>
     var myChart = new Chart("myChart", {
-    type: "line",
-    data: {},
-    options: {}
+        type: "line",
+        data: {},
+        options: {}
     });
-    function return_state(val){
-        var states=[
-            [0,0.2],
-            [0.2,0.4],
-            [0.4,0.6],
-            [0.6,0.8],
-            [0.8,1]
+    function return_state(val) {
+        var states = [
+            [0, 0.2],
+            [0.2, 0.4],
+            [0.4, 0.6],
+            [0.6, 0.8],
+            [0.8, 1]
         ]
-        for(var d=0;d<states.length;d++){
-            if(states[d][0]<=val<states[d][0]){
+        for (var d = 0; d < states.length; d++) {
+            if (states[d][0] <= val < states[d][0]) {
                 return d
             }
             // console.log(states[d],val,)
         }
         return 4
     }
-    function nminusone(next,prev){
-        if(Math.abs(next-prev)>1){
-            if(next<prev){
-                return next+1
+    function nminusone(next, prev) {
+        if (Math.abs(next - prev) > 1) {
+            if (next < prev) {
+                return next + 1
             }
-            else{
-                return next-1
+            else {
+                return next - 1
             }
-        }else{
+        } else {
             return next
         }
     }
-    function ndivideby2(next,prev){
-        return Math.floor(Math.abs(prev-next)/2);
+    function ndivideby2(next, prev) {
+        return Math.floor(Math.abs(prev - next) / 2);
 
     }
-    function nmove1(next,prev){
-        if(next>prev){
-            return prev+1
+    function nplus1divideby2(next, prev) {
+        return prev + Math.floor(((next - prev) + 1) / 2);
+        // return Math.floor(Math.abs(prev-next)/2);
+
+    }
+    function nmove1(next, prev) {
+        if (next > prev) {
+            return prev + 1
         }
-        else{
-            return prev-1
+        else {
+            return prev - 1
         }
 
     }
+    // function averageFunc(next, prev) {
+    //     return ((prev*(i+1))+l[i])/i+2;
+
+    //     if (next > prev) {
+    //         return prev + 1
+    //     }
+    //     else {
+    //         return prev - 1
+    //     }
+
+    // }
 
 
-    
-    var curr_state=[null,null,null]
-    var a=window.location.href.split("#")
-    var l=Array.from({length: parseInt(a[a.length-1])}, () => parseFloat(Math.random().toFixed(2)))
-    var j=null;
-    var next=null;
-    var v1=[];
-    var v2=[];
-    var v3=[];
+
+    var curr_state = [null, null, null]
+    // var a = window.location.href.split("#")
+    var a = 50
+    // var l = Array.from({ length: parseInt(a[a.length - 1]) }, () => parseFloat(Math.random().toFixed(2)))
+    var l = Array.from({ length: parseInt(a) }, () => parseFloat(Math.random().toFixed(2)))
+    var j = null;
+    var next = null;
+    var v1 = [];
+    var v2 = [];
+    var v3 = [];
+    var v4 = [];
+    var currAvg = l[0];
+    var currState = 0;
     var xValues = [0];
-    for(var i=0;i<l.length;i++){
-        j=l[i]
-        if(i==0){
-            curr_state[0]=return_state(j)
-            curr_state[1]=return_state(j)
-            curr_state[2]=return_state(j)
+    for (var i = 0; i < l.length; i++) {
+        j = l[i]
+        if (i == 0) {
+            curr_state[0] = return_state(j)
+            curr_state[1] = return_state(j)
+            curr_state[2] = return_state(j)
+            // curr_state[3] = return_state(j)
+            // curr_state[3] = return_state(j)
             console.log(curr_state)
             v1.push(curr_state[0])
             v2.push(curr_state[0])
             v3.push(curr_state[0])
+            v4.push(return_state(j))
+            // if (currAvg >= 0 && currAvg < 0.2) {
+            //     currState = 0 
+            //     v4.push(0)
+            // }
+            // else if (currAvg >= 0.2 && currAvg < 0.4) {
+            //     currState = 1
+            //     v4.push(1)
+            // }
+            // else if (currAvg >= 0.4 && currAvg < 0.6) {
+            //     currState = 2
+            //     v4.push(2)
+            // }
+            // else if (currAvg >= 0.6 && currAvg < 0.8) {
+            //     currState = 3
+            //     v4.push(3)
+            // }
+            // else if (currAvg >= 0.8 && currAvg <= 1.0) {
+            //     currState = 4
+            //     v4.push(4)
+            // }
+            // v4.push(curr_state[0])
+
         }
-        else{
-            next=return_state(j)
-            curr_state[0]=nminusone(next,curr_state[0])
-            curr_state[1]=ndivideby2(next,curr_state[1])
-            curr_state[2]=nmove1(next,curr_state[2])
+        else {
+            next = return_state(j)
+            curr_state[0] = nminusone(next, curr_state[0])
+            curr_state[1] = nplus1divideby2(next, curr_state[1])
+            curr_state[2] = nmove1(next, curr_state[2])
+            // curr_state[3] = averageFunc(next, curr_state[3])
             v1.push(curr_state[0])
             v2.push(curr_state[1])
             v3.push(curr_state[2])
-            xValues.push(xValues[xValues.length-1])
+            v4.push(next)
+            // currAvg = ((i*currAvg) + next)/(i+1) 
+            // currState = Math.floor(((i*currState) + next)/(i+1)) 
+            // ((currAvg * (i + 1)) + j) / (i + 2);
+            // if (currAvg >= 0 && currAvg < 0.2) {
+            //     currState = 0
+            //     v4.push(0)
+            // }
+            // else if (currAvg >= 0.2 && currAvg < 0.4) {
+            //     currState = 1
+            //     v4.push(1)
+            // }
+            // else if (currAvg >= 0.4 && currAvg < 0.6) {
+            //     currState = 2
+            //     v4.push(2)
+            // }
+            // else if (currAvg >= 0.6 && currAvg < 0.8) {
+            //     currState = 3
+            //     v4.push(3)
+            // }
+            // else if (currAvg >= 0.8 && currAvg <= 1.0) {
+            //     currState = 4
+            //     v4.push(4)
+            // }
 
-            
+            // v4.push(currState)
+            // v4.push(curr_state[3])
+            xValues.push(xValues[xValues.length - 1])
+            document.getElementById("nop").innerHTML = v4.toString();
+
         }
-        
+
     }
-document.getElementById("op").innerHTML=l.toString();
-new Chart("myChart", {
-  type: "line",
-  data: {
-    labels: xValues,
-    datasets: [{
-      data: v1,
-      borderColor: "red",
-      fill: false
-    },{
-      data: v2,
-      borderColor: "green",
-      fill: false
-    },{
-      data: v3,
-      borderColor: "blue",
-      fill: false
-    }]
-  },
-  options: {
-    legend: {display: false}
-  }
-});
-myChart.update()
+    document.getElementById("op").innerHTML = l.toString();
+    document.getElementById("nop").innerHTML = v4.toString();
+    new Chart("myChart", {
+        type: "line",
+        data: {
+            labels: xValues,
+            datasets: [
+                {
+                    data: v1,
+                    borderColor: "red",
+                    fill: false,
+                    label: "N-1"
+                }, {
+                    data: v2,
+                    borderColor: "green",
+                    fill: false,
+                    label: "(N+1)/2"
+                }, 
+                // {
+                //     data: v3,
+                //     borderColor: "blue",
+                //     fill: false
+                // }
+                // ,
+                {
+                    data: v4,
+                    borderColor: "gray",
+                    fill: false,
+                    label: "State Average"
+                }
+                ,
+                // {
+                //     data: v4,
+                //     borderColor: "pink",
+                //     fill: false
+                // }
+            ]
+        },
+        options: {
+            legend: { display: true }
+        }
+    });
+    myChart.update()
 
 </script>
 
